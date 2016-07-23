@@ -27,7 +27,7 @@ class NewsArticle(object):
         crawler = Crawler()
         # get html data from url
         web_data = crawler.get_page(url)
-        soup = BeautifulSoup(web_data)
+        soup = BeautifulSoup(web_data, "lxml") #BeautifulSoup(web_data)
 
         # remove link news 
         [e.extract() for e in soup('div', {'class':'link_news'})]
@@ -79,7 +79,7 @@ def get_list(section, date):
         web_data = crawler.get_page(url)
         
         # html parsing
-        soup= BeautifulSoup(web_data)
+        soup= BeautifulSoup(web_data, "lxml")
         list_body = soup('div', {'class':'list_body newsflash_body'})[0]
 
         # get each article's url
@@ -105,10 +105,7 @@ def get_list(section, date):
 def news_crawling(section, date):
 
     # set section as dictionary
-    section_name = [
-        'politic', 'economy', 'society', 'life/culture',
-        'word', 'it/ science', 'entertainment', 'sports', 'opinion'
-    ]
+    section_name = ['politic', 'economy', 'society', 'life/culture','world', 'it/ science', 'entertainment', 'sports', 'opinion']
     section_no = ['100', '101', '102', '103', '104', '105', '106', '107', '110']
     sections = zip(section_name, section_no)
     sections = dict(sections)
@@ -132,12 +129,14 @@ def news_crawling(section, date):
 
 
 if __name__ == '__main__':
-    date = datetime.date(2015, 8, 01)
+    strDate = sys.argv[1]
+    endDate = sys.argv[2]
 
-    section_name = [
-        'politic', 'economy', 'society', 'life/culture',
-        'word', 'it/ science', 'entertainment', 'sports', 'opinion'
-    ]
+    date = datetime.date(int(strDate[0:4]), int(strDate[4:6]), int(strDate[6:8]))
+    enddate = datetime.date(int(endDate[0:4]), int(endDate[4:6]), int(endDate[6:8]))
+    timeDiff = enddate -date
+
+    section_name = ['politic', 'economy', 'society', 'life/culture', 'world', 'it/ science', 'entertainment', 'sports', 'opinion']
     section_name.pop(0)
     section_name.pop(0)
     section_name.pop(0)
@@ -145,7 +144,7 @@ if __name__ == '__main__':
         if section.replace('/', '_') not in os.listdir('.'):
             os.mkdir(section.replace('/', '_'))
         os.chdir(section.replace('/', '_'))
-        for delta_day in xrange(10):
+        for delta_day in xrange(int(timeDiff.days)):
             dates = date + datetime.timedelta(delta_day)
             dates = dates.isoformat()
             dates = dates.replace('-', '')
