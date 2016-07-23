@@ -1,4 +1,3 @@
-
 import datetime
 import urllib
 import time
@@ -27,7 +26,7 @@ class NewsArticle(object):
         crawler = Crawler()
         # get html data from url
         web_data = crawler.get_page(url)
-        soup = BeautifulSoup(web_data, "lxml") #BeautifulSoup(web_data)
+        soup = BeautifulSoup(web_data, 'html.parser')
 
         # remove link news 
         [e.extract() for e in soup('div', {'class':'link_news'})]
@@ -79,7 +78,7 @@ def get_list(section, date):
         web_data = crawler.get_page(url)
         
         # html parsing
-        soup= BeautifulSoup(web_data, "lxml")
+        soup= BeautifulSoup(web_data, 'html.parser')
         list_body = soup('div', {'class':'list_body newsflash_body'})[0]
 
         # get each article's url
