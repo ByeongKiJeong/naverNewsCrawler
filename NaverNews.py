@@ -136,9 +136,7 @@ if __name__ == '__main__':
     timeDiff = enddate -date
 
     section_name = ['politic', 'economy', 'society', 'life/culture', 'world', 'it/ science', 'entertainment', 'sports', 'opinion']
-    section_name.pop(0)
-    section_name.pop(0)
-    section_name.pop(0)
+
     for section in section_name:
         if section.replace('/', '_') not in os.listdir('.'):
             os.mkdir(section.replace('/', '_'))
