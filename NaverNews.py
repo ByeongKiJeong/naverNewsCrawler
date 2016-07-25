@@ -136,32 +136,45 @@ if __name__ == '__main__':
     timeDiff = enddate -date
 
     section_name = ['politic', 'economy', 'society', 'life/culture', 'world', 'it/ science', 'entertainment', 'sports', 'opinion']
-    """
-    for section in section_name:
-        if section.replace('/', '_') not in os.listdir('.'):
-            os.mkdir(section.replace('/', '_'))
-        os.chdir(section.replace('/', '_'))
-        for delta_day in xrange(int(timeDiff.days)):
-            dates = date + datetime.timedelta(delta_day)
-            dates = dates.isoformat()
-            dates = dates.replace('-', '')
-            print dates +' ' + section +' crawling'
-            
-            news_crawling(section, dates)
-        os.chdir('..')
-    """
-    for section in section_name:
-        if section.replace('/', '_') not in os.listdir('.'):
-            os.mkdir(section.replace('/', '_'))
-        
-    for delta_day in xrange(int(timeDiff.days) + 1):
+    if int(sys.argv[3]) == 1:
         for section in section_name:
+            if section.replace('/', '_') not in os.listdir('.'):
+                os.mkdir(section.replace('/', '_'))
             os.chdir(section.replace('/', '_'))
-
-            dates = date + datetime.timedelta(delta_day)
-            dates = dates.isoformat()
-            dates = dates.replace('-', '')
-            print dates +' ' + section +' crawling'
-            
-            news_crawling(section, dates)
+            for delta_day in xrange(int(timeDiff.days)):
+                dates = date + datetime.timedelta(delta_day)
+                dates = dates.isoformat()
+                dates = dates.replace('-', '')
+                print dates +' ' + section +' crawling'
+                
+                news_crawling(section, dates)
             os.chdir('..')
+    elif int(sys.argv[3]) == 2:
+        for section in section_name:
+            if section.replace('/', '_') not in os.listdir('.'):
+                os.mkdir(section.replace('/', '_'))
+            
+        for delta_day in xrange(int(timeDiff.days) + 1):
+            for section in section_name:
+                os.chdir(section.replace('/', '_'))
+
+                dates = date + datetime.timedelta(delta_day)
+                dates = dates.isoformat()
+                dates = dates.replace('-', '')
+                print dates +' ' + section +' crawling'
+                
+                news_crawling(section, dates)
+                os.chdir('..')
+    elif int(sys.argv[3]) == 0:
+        if 'data' not in os.listdir('.'):
+            os.mkdir('data')
+        os.chdir('data')
+
+        for delta_day in xrange(int(timeDiff.days) + 1):
+            for section in section_name:
+                dates = date + datetime.timedelta(delta_day)
+                dates = dates.isoformat()
+                dates = dates.replace('-', '')
+                print dates +' ' + section +' crawling'
+                
+                news_crawling(section, dates)
