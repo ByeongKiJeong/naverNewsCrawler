@@ -154,7 +154,7 @@ if __name__ == '__main__':
         if section.replace('/', '_') not in os.listdir('.'):
             os.mkdir(section.replace('/', '_'))
         
-    for delta_day in xrange(int(timeDiff.days)):
+    for delta_day in xrange(int(timeDiff.days) + 1):
         for section in section_name:
             os.chdir(section.replace('/', '_'))
 
